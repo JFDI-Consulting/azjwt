@@ -6,7 +6,6 @@ const got = require("got");
 const { attemptPromise } = require("@jfdi/attempt");
 const verifyJwt = promisify(verify);
 
-const getKeyFromFile = async () => readFile(keyFilePath);
 const ensureTrailingSlash = x => ((x || "").slice(-1) !== "/" ? x + "/" : x);
 
 const KEY_FILE = "publicKey.pem",
@@ -17,6 +16,8 @@ const KEY_FILE = "publicKey.pem",
         audience,
         issuer
     };
+
+const getKeyFromFile = async () => readFile(keyFilePath);
 
 module.exports = fn => async (context, ...args) => {
     const log = debug ? context.log : () => null;
@@ -42,7 +43,7 @@ module.exports = fn => async (context, ...args) => {
     const [e, payload] = await attemptPromise(() => verifyJwt(jwt, key, options));
 
     if (e) {
-        context.log(e.message);
+        log(e.message);
         context.res = { status: 401 };
     } else {
         context.user = payload;

@@ -1,6 +1,6 @@
 {
     "name": "@jfdi/azjwt",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "An easy to use JWT verifier/decoder for authorisation in Azure Functions",
     "scripts": {
         "test": "echo \"No tests yet...\""
@@ -8,12 +8,12 @@
     "dependencies": {
         "got": "^11.8.2",
         "jsonwebtoken": "^8.5.1",
-        "@jfdi/attempt": "^1.0.1"
+        "@jfdi/attempt": "^1.0.2"
     },
     "devDependencies": {},
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/JFDI-Consulting/jwt-verify-azure-function.git"
+        "url": "git+https://github.com/JFDI-Consulting/azjwt.git"
     },
     "keywords": [
         "azure function",
@@ -23,7 +23,7 @@
     "author": "Jon Silver",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/JFDI-Consulting/jwt-verify-azure-function/issues"
+        "url": "https://github.com/JFDI-Consulting/azjwt/issues"
     },
-    "homepage": "https://github.com/JFDI-Consulting/jwt-verify-azure-function#readme"
+    "homepage": "https://github.com/JFDI-Consulting/azjwt#readme"
 }

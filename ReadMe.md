@@ -64,10 +64,10 @@ You'll need to specify a couple of application settings for the library to pick 
 
 `debug` is an optional flag that can be set to anything truthy to turn on extra runtime context logging
 
+There's a `local.settings.sample.json` file included to remind you what the library needs.
+
 ## Installation
 
 Insert `@jfdi/azjwt` in your `package.json` dependencies, or
 
 `npm i @jfdi/azjwt`
-
-You'll need a token that gives you read access to the @jfdi private scope at npmjs.com, which you can use in `.npmrc` file in your project's root folder.
