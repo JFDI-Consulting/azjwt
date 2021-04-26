@@ -1,9 +1,10 @@
 {
     "name": "@jfdi/azjwt",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "An easy to use JWT verifier/decoder for authorisation in Azure Functions",
     "scripts": {
-        "test": "echo \"No tests yet...\""
+        "test": "echo \"No tests yet...\"",
+        "start": "node ./example/"
     },
     "dependencies": {
         "got": "^11.8.2",

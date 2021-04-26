@@ -1,13 +1,13 @@
 {
   "name": "@jfdi/azjwt",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
     "@jfdi/attempt": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/@jfdi/attempt/-/attempt-1.0.1.tgz",
-      "integrity": "sha512-q0hKzQkBnb/sS39EUiDwY3EjVbFi5WfVwkhnwkAjIjJW052ptA9fO+a9V8hBhjc/tnrGqkVfbi8sLTS4Rk4xIA==",
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/@jfdi/attempt/-/attempt-1.0.2.tgz",
+      "integrity": "sha512-qjhkDTZlroDdLPqOheecGZto2pQ0LYJyLtzUxueSFUs7jzageOI+y5/GuIQN95ABfoRHP0cbxWzJOm8vZs82UQ==",
       "dependencies": {
         "@babel/code-frame": {
           "version": "7.12.11",
