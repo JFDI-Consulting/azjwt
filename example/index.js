@@ -1,4 +1,4 @@
 const host = require("./function-host-mockup");
-const fn = require("./function");
+const functions = require("./functions");
 
-host(fn).then(({ res }) => console.log("Function returned response", res));
+functions.forEach(fn => host(fn).then(({ res }) => console.log("Function returned response", res)));

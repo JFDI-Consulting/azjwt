@@ -19,7 +19,7 @@ const KEY_FILE = "publicKey.pem",
 
 const getKeyFromFile = async () => readFile(keyFilePath);
 
-module.exports = fn => async (context, ...args) => {
+module.exports = (fn, options) => async (context, ...args) => {
     const log = debug ? context.log : () => null;
 
     const getKey = async () => {
@@ -34,7 +34,7 @@ module.exports = fn => async (context, ...args) => {
         } else return cachedKey;
     };
 
-    const getJwt = req => req.headers.authorization.slice(7); // all headers have been lowercased before we get them!
+    const getJwt = req => req.headers.authorization.slice(7); // cut off "Bearer "; all headers have been lowercased before we get them!
 
     const key = await getKey();
     const jwt = getJwt(context.req);
@@ -46,7 +46,42 @@ module.exports = fn => async (context, ...args) => {
         log(e.message);
         context.res = { status: 401 };
     } else {
-        context.user = payload;
-        return fn(context, ...args);
+        // user passes checks if in one or all specified permitted roles, and none of the denied roles
+        const checkAdditionalProperties = options => {
+            const results = Object.entries(options).map(([key, entry]) => {
+                const collection = payload[key];
+                const check = (obj, dflt) => {
+                    const { roles = [], requireAll = false } = obj;
+                    const collectionIncludesRole = role => collection.includes(role);
+                    const collectionMatches =
+                        roles.length === 0
+                            ? dflt
+                            : requireAll
+                            ? roles.every(collectionIncludesRole)
+                            : roles.some(collectionIncludesRole);
+                    return collectionMatches;
+                };
+
+                const rule = Array.isArray(entry) ? { permitted: { roles: entry, requireAll: true } } : entry;
+                const { permitted = {}, denied = {} } = rule;
+                const userHasPermittedRoles = check(permitted, true),
+                    userHasDeniedRoles = check(denied, false),
+                    passed = userHasPermittedRoles && !userHasDeniedRoles;
+                // console.log(
+                //     `permittedRoles ${userHasPermittedRoles}, deniedRoles ${userHasDeniedRoles}, overall ${passed}`
+                // );
+                return passed;
+            });
+            // console.log("additional check results", results);
+            return results.every(Boolean);
+        };
+
+        const gotOptions = options && typeof options === "object";
+        const everythingChecksOut = gotOptions ? checkAdditionalProperties(options) : true;
+
+        if (everythingChecksOut) {
+            context.user = payload;
+            return fn(context, ...args);
+        } else context.res = { status: 403 };
     }
 };
