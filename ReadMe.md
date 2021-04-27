@@ -54,6 +54,41 @@ Your decoded JWT will look something like this (details changed to protect the i
 }
 ```
 
+### Checking Additional JWT Properties
+
+Sommetimes additional properties are encoded into the JWT by the issuer. Auth0 does this, for example, as part of its RBAC (Role-Based Access Control) features for APIs. If a user has roles assignes, they're included in the token in a `permissions` property. You can specify additional properties to check against criteria in a second object parameter passed to the function. This object can have one of two syntaxes, shortform and longform. Here's the shortform...
+
+```javascript
+module.exports = verifyJwt(
+    async (context, req) => {
+        const { user } = context;
+        context.res = { body: user };
+    },
+    {
+        permissions: ["customer:create"]
+    }
+);
+```
+
+and here's the more versatile longform, providing for denied roles and all/some matching:
+
+```javascript
+module.exports = verifyJwt(
+    async (context, req) => {
+        const { user } = context;
+        context.res = { body: user };
+    },
+    {
+        permissions: {
+            permitted: { roles: permitted, requireAll: true },
+            denied: { roles: denied, requireAll: false }
+        }
+    }
+);
+```
+
+These are demonstrated in the included example.
+
 ### Prerequisites
 
 You'll need to specify a couple of application settings for the library to pick up at runtime, or it simply won't work.
