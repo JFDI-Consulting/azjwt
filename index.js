@@ -34,7 +34,7 @@ module.exports = (fn, options) => async (context, ...args) => {
         } else return cachedKey;
     };
 
-    const getJwt = req => req.headers.authorization.slice(7); // cut off "Bearer "; all headers have been lowercased before we get them!
+    const getJwt = req => (req.headers.authorization || "").slice(7); // cut off "Bearer "; all headers have been lowercased before we get them!
 
     const key = await getKey();
     const jwt = getJwt(context.req);
